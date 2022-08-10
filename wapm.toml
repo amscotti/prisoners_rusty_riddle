@@ -1,0 +1,19 @@
+[package]
+name = "amscotti/prisoners_rusty_riddle"
+version = "0.1.0"
+description = "100 Prisoners Riddle Simulator"
+license = "MIT"
+readme = "readme.md"
+repository = "https://github.com/amscotti/prisoners_rusty_riddle"
+
+[[module]]
+name = "prisoners_rusty_riddle"
+source = "target/wasm32-wasi/release/prisoners_rusty_riddle.wasm"
+abi = "wasi"
+
+[module.interfaces]
+wasi = "0.1.0-unstable"
+
+[[command]]
+name = "prisoners_rusty_riddle"
+module = "prisoners_rusty_riddle"

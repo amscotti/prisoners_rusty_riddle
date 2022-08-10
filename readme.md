@@ -30,3 +30,11 @@ OPTIONS:
     -n, --number-of-sessions <NUMBER_OF_SESSIONS>    Number of sessions to run [default: 10000000]
     -V, --version                                    Print version information
 ```
+
+## WebAssembly (wasm32-wasi) Experimenting
+Using configuration conditional checks, this application can be built for `wasm32-wasi` and will remove [rayon](https://docs.rs/rayon/latest/rayon/) dependency and related code.
+
+To build for wasm32-wasi,
+* Run `rustup target add wasm32-wasi` to add the target
+* Build with `cargo build --release --target=wasm32-wasi`
+* and use [wasmer](https://wasmer.io/) to run, like so `wasmer target/wasm32-wasi/release/prisoners_rusty_riddle.wasm -- -n 1000000`

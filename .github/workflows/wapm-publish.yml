@@ -1,0 +1,23 @@
+on: 
+  release:
+    types: [created]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  releases-matrix:
+    name: Release wasm32-wasi Binary
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: cargo build --verbose --release --target=wasm32-wasi
+    - name: Setup Wasmer
+      uses: wasmerio/setup-wasmer@v1
+
+    - name: Publish to WAPM
+      uses: wasmerio/wapm-publish@v1
+      with:
+        username: ${{ secrets.WAPM_USERNAME }}
+        password: ${{ secrets.WAPM_PASSWORD }}

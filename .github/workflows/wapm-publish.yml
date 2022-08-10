@@ -1,3 +1,5 @@
+name: Publish to WAPM
+
 on: 
   release:
     types: [created]

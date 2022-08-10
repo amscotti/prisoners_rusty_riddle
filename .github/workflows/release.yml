@@ -1,3 +1,5 @@
+name: Rust releases
+
 on:
   release:
     types: [created]

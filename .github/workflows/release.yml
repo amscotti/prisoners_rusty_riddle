@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [x86_64-pc-windows-gnu, x86_64-unknown-linux-musl, x86_64-apple-darwin]
+        target: [x86_64-pc-windows-gnu, x86_64-unknown-linux-musl, x86_64-apple-darwin, wasm32-wasi]
     steps:
       - uses: actions/checkout@master
       - name: Compile and release
@@ -20,4 +20,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           RUSTTARGET: ${{ matrix.target }}
-          EXTRA_FILES: "README.md LICENSE"
+          EXTRA_FILES: "readme.md LICENSE"
+      - name: Setup Wasmer
+        uses: wasmerio/setup-wasmer@v1
+      - name: Publish to WAPM
+        uses: wasmerio/wapm-publish@v1
+        with:
+          username: ${{ secrets.WAPM_USERNAME }}
+          password: ${{ secrets.WAPM_PASSWORD }}

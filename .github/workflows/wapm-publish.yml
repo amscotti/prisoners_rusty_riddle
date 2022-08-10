@@ -1,4 +1,4 @@
-name: Rust releases
+name: Rust wasm32-wasi releases
 
 on:
   release:
@@ -6,12 +6,8 @@ on:
 
 jobs:
   release:
-    name: release ${{ matrix.target }}
+    name: release wasm32-wasi
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        target: [x86_64-pc-windows-gnu, x86_64-unknown-linux-musl, x86_64-apple-darwin]
     steps:
       - uses: actions/checkout@master
       - name: Compile and release
@@ -19,5 +15,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          RUSTTARGET: ${{ matrix.target }}
+          RUSTTARGET: wasm32-wasi
           EXTRA_FILES: "readme.md LICENSE"
+      - name: Setup Wasmer
+        uses: wasmerio/setup-wasmer@v1
+      - name: Publish to WAPM
+        uses: wasmerio/wapm-publish@v1

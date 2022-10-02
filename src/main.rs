@@ -1,16 +1,14 @@
-use clap::{arg_enum, Parser};
+use clap::{Parser, ValueEnum};
 use session::Session;
 
 mod session;
 
 const NUMBER_OF_SESSIONS: u32 = 1000000;
 
-arg_enum! {
-    #[derive(PartialEq, Eq, Debug)]
-    pub enum Strategy {
-        Loop,
-        Random
-    }
+#[derive(ValueEnum, Clone, PartialEq, Eq, Debug)]
+pub enum Strategy {
+    Loop,
+    Random,
 }
 
 /// 100 Prisoners Riddle Simulator
@@ -22,7 +20,7 @@ struct Args {
     number_of_sessions: u32,
 
     /// Search strategy to use by the prisoners
-    #[clap(short, long, default_value_t = Strategy::Loop)]
+    #[clap(value_enum, default_value_t = Strategy::Loop)]
     strategy: Strategy,
 }
 
@@ -65,7 +63,7 @@ fn main() {
     let count = Session::new(args.number_of_sessions, strategy).run_sessions();
 
     println!(
-        "Count of success {} - Percentage {:.2}% using {} strategy",
+        "Count of success {} - Percentage {:.2}% using {:?} strategy",
         count,
         (count as f64 / args.number_of_sessions as f64) * 100.0,
         args.strategy

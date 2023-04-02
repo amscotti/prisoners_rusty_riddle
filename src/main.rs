@@ -1,5 +1,6 @@
 use clap::{Parser, ValueEnum};
 use session::Session;
+use rand::seq::SliceRandom;
 
 mod session;
 
@@ -40,10 +41,12 @@ fn loop_search(boxes: &[u32], prisoner: u32) -> bool {
 }
 
 fn random_search(boxes: &[u32], prisoner: u32) -> bool {
-    let guesses: Vec<usize> = (0..(boxes.len() / 2)).collect();
+    let mut indices: Vec<usize> = (0..boxes.len()).collect();
+    indices.shuffle(&mut rand::thread_rng());
+    let half_indices = &indices[0..(boxes.len() / 2)];
 
-    for i in guesses {
-        let value = boxes[i as usize];
+    for &i in half_indices {
+        let value = boxes[i];
         if value == prisoner {
             return true;
         }
